@@ -9,7 +9,7 @@
 .btn2 {
     background-color:rgba(4, 73, 129, 0.808);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    height: 35px;
+    height: 37px;
     padding: 0px;
     width: 45px;
     vertical-align: center;    
@@ -80,7 +80,7 @@ width:100%;
 
 .main-T tbody {
     display: block;
-    height: 280px;
+    height: 320px;
    /* overflow: auto; */
     overflow-y: scroll;
 }
@@ -92,5 +92,21 @@ width:100%;
 
 .table-reference-files tbody {
     height: 50px;
+}
+
+.mainrecordT2 {
+    text-align: center;
+    border-collapse: collapse;
+    border: none;
+    width: 100%;
+    font-size: 14px;
+    border-radius: 5px 5px 0 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    margin:0px;
+    padding: 0px;
+}
+
+.mainrecordT2 tbody tr {
+    border-bottom: 1px solid #dddddd;
 }
 
