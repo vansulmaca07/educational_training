@@ -14,10 +14,6 @@ session_start();
         $training_id = $_SESSION["document_number"];
     }
    
-
-
-    
-
     $query_contents = "SELECT * from training_form
     where training_id = '$training_id'";
     
@@ -38,8 +34,6 @@ session_start();
     <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-
-
     <!--TEST-->
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" >
@@ -77,7 +71,7 @@ session_start();
 
 
 
-    <title>Document</title>
+    <title>サイン</title>
 
 <style>
     
@@ -225,25 +219,78 @@ session_start();
 </style>
     </head>
 
-
-
-<body>
-    <div class="container my-5">
-    
-            <div class="all-header" style="position:relative;">
-                <div style="height: 20px; width:255px; position:absolute;">
-                    <div class="alert alert-primary pt-2 pb-2 mb-2" role="alert">
-                        <span class = "align-middle" style="font-size:10px;"><b>テキスト文字が半角に設定されていることを確認します。</b></span>
-                    </div>
-                </div>
-                <div class="main-header">
-                    <h4  class="text-center">受講者</h4>
+<body style="width: 100%; min-width: 1200px; overflow-y:auto">
+    <div class="container-fluid mt-3 p-3" style="width:100%;">
+        <div class="all-header" style="width:100%; position:relative;">
+            <div style="height: 20px; width:350px; position:absolute;">
+                <div class="alert alert-primary pt-2 pb-2 mb-2" role="alert">
+                    <span class = "align-middle" style="font-size:14px;"><b>テキスト文字が半角に設定されていることを確認します。</b></span>
                 </div>
             </div>
-           
-            <div class="row row-cols-auto" style="margin-top: 30px;">
-                <div class="col" style="z-index:0;">
-                    <div class="new-form-header" id="alert-window-header"  style="position:absolute; z-index:4;">
+            <div class="main-header">
+                <h4 class="text-center">受講者</h4>
+            </div>
+        </div>
+        <hr style="color:black;">
+        <div class="top-header" style="width: 100%; margin-top: 20px;">
+            <table class="table table-hover rounded-3 mainrecordT2" style="padding-bottom: 0px; width:100%; table-layout:fixed;">
+                <tbody style="width: 100%;">
+                    <tr style="width:100%">
+                        <td style="width: 18%;">
+                            <!--Document No-->
+                            <form action="includes/document_number.inc.php" method="post">
+                                <div class="input-group">
+                                    <input type="text" class="form-control-plaintext docuNo" placeholder="Document No." aria-label="Recipient's username" aria-describedby="button-addon2"
+                                        value="<?php echo $training_id;  ?>" name ="document_number">
+                                    <button class="btn btn_search" type="submit" id="button-addon2" name="submit"><span class="bi-search text-white"></span></button>
+                                </div>
+                            </form>
+                        </td>
+                        <td style="width: 18%;">
+                             <!--ID TAP-->
+                            <form action="includes/attendance_tap.php" method="post" autocomplete="off" id="attendance-id-form" >
+                                <div class="input-group">
+                                    <input type="text" class="form-control-plaintext docuNo autofocus-id" placeholder="Please TAP your ID" aria-label="Recipient's username" aria-describedby="button-addon2"
+                                    value="" name ="rfid" id="attendance_input">
+                                    <button class="btn btn2 rfid-submit-button" type="submit" id="button-addon2" name="submit"><i class="text-white bi bi-person-vcard"></i>
+                                    </button>
+                                </div>
+                            </form>   
+                        </td>
+                        <td style="width: 18%;">
+                            <!--QR/Bar Code-->
+                            <form action="includes/bar_qr_scan.inc.php" method="post" id="bar-qr-form">
+                                <div class="d-flex" style="width:100%;">
+                                    <div class="" style="width: 80%;">
+                                        <!--<input type="text" class="form-control-plaintext docuNo autofocus-barqr" placeholder="Please scan your QR/Bar code" aria-label="Recipient's username" aria-describedby="button-addon2"
+                                        value="" name ="bar_qr_input" autocomplete="off" id="bar_qr_input">-->
+                                        <input type="text" class="form-control" placeholder="バーコードをスキャンしてください" aria-label="Recipient's username" aria-describedby="button-addon2"
+                                        value="" name ="bar_qr_input" autocomplete="off" id="bar_qr_input" style="width: 100%;">
+                                    </div>
+                                    &nbsp;
+                                        <!--<button class="btn btn2" type="submit" id="button-addon2" name="submit"><i class="bi bi-qr-code-scan text-white"></i></button>-->
+                                        <button class="btn btn-primary" type="submit" name="submit"><i class="bi bi-qr-code-scan text-white"></i></button>
+                                </div>
+                            </form>
+                        </td>
+                        <td style="width: 18%;">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">内容と教材</button>  
+                        </td>
+                        <td style="width: 18%;">
+                            <div class="input-group">
+                                <input type="text" class="form-control-plaintext docuNo" placeholder="Please enter your GID" aria-label="Recipient's username" aria-describedby="button-addon2"
+                                    value="<?php if(isset($_SESSION["GID_attendance"])) { echo $_SESSION["GID_attendance"];} ?>" name ="GID_check" autocomplete="off" id="GID_check">
+                                <button class="btn btn2" type="button" data-bs-target="#training_list_modal" data-bs-toggle="modal" id="training_list_button" ><i class="text-white bi bi-person-exclamation"></i></button>
+                            </div> 
+                        </td>
+                        <td style="width: 10%;">
+                            <a class="btn btn-danger" id="reset-filter-btn" style="float:right;">リセット&nbsp;&nbsp;<i class="fa-solid fa-filter-circle-xmark"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="col" style="z-index:0;">
+                <div class="new-form-header" id="alert-window-header"  style="position:absolute; z-index:4;">
                             <?php 
                                 if(isset($_GET["success"])) {
                                     echo "                               
@@ -254,21 +301,9 @@ session_start();
                                     ";     
                                 }
                             ?> 
-                    </div>
-
-                    <!--Document No-->
-                    <form action="includes/document_number.inc.php" method="post">
-                    <div class="input-group mb-3">
-                            <input type="text" class="form-control-plaintext docuNo" placeholder="Document No." aria-label="Recipient's username" aria-describedby="button-addon2"
-                                value="<?php echo $training_id;  ?>" name ="document_number">
-                            <button class="btn btn_search" type="submit" id="button-addon2" name="submit"><span class="bi-search text-white"></span></button>
-                    </div>
-                    </form>
-                    
-                  
-                </div>            
-                <div class="col" style="z-index:0;">
-                
+                </div>      
+            </div>            
+            <div class="col" style="z-index:0;">
                 <!--ALERTS-->
                 <div class="new-form-header"  style="position:absolute; z-index:4;">
                     <?php 
@@ -310,53 +345,8 @@ session_start();
                        
                     ?> 
                 </div>
-
-                <!--ID TAP-->
-                
-                     <!--ID TAP-->
-                     <form action="includes/attendance_tap.php" method="post" autocomplete="off" id="attendance-id-form" >
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control-plaintext docuNo autofocus-id" placeholder="Please TAP your ID" aria-label="Recipient's username" aria-describedby="button-addon2"
-                            value="" name ="rfid" id="attendance_input">
-                            <button class="btn btn2 rfid-submit-button" type="submit" id="button-addon2" name="submit"><i class="text-white bi bi-person-vcard"></i>
-                            </button>
-                        </div>
-                    </form>    
-
-                </div>
-
-                <!--QR_Barcode-->
-                <div class="col">
-                    <form action="includes/bar_qr_scan.inc.php" method="post" id="bar-qr-form">
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control-plaintext docuNo autofocus-barqr" placeholder="Please scan your QR/Bar code" aria-label="Recipient's username" aria-describedby="button-addon2"
-                            value="" name ="bar_qr_input" autocomplete="off" id="bar_qr_input">
-                            <button class="btn btn2" type="submit" id="button-addon2" name="submit"><i class="bi bi-qr-code-scan text-white"></i></button>
-                        </div>
-                    </form>
-                </div>
-                   <!--Reference Files-->
-                <div class="col">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    教育訓練の内容と教材
-                    </button>        
-                </div>
-
-                    <!--Check Training-->
-                <div class="col">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control-plaintext docuNo" placeholder="Please enter your GID" aria-label="Recipient's username" aria-describedby="button-addon2"
-                            value="<?php if(isset($_SESSION["GID_attendance"])) { echo $_SESSION["GID_attendance"];} ?>" name ="GID_check" autocomplete="off" id="GID_check">
-                            <button class="btn btn2" type="button" data-bs-target="#training_list_modal" data-bs-toggle="modal" id="training_list_button" ><i class="text-white bi bi-person-exclamation"></i></button>
-                    </div> 
-                </div>
-                
-                <div class="col">
-                    <a class="btn btn-danger" id="reset-filter-btn" style="float:right;">リセット&nbsp;&nbsp;<i class="fa-solid fa-filter-circle-xmark"></i></a>
-                </div>
-                <br>         
-            </div>
-
+            </div>                 
+        </div>
             <!-- Modal For Reference Files -->
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -490,7 +480,7 @@ session_start();
 
             <div id="table-wrapper">
                 <div id="table-scroll"> 
-                    <table id="attendanceTable" border="1" class="table table-bordered table-hover rounded-3 main-T">
+                    <table id="attendanceTable" border="1" style="" class="table table-bordered table-hover rounded-3 main-T">
                         <thead class="table text-center theadstyle" style="width: 100%; margin-bottom: 0;">
                             <th style="width:15%">
                                 <div class="shift-process-container p-0" style="width:100%;">
@@ -602,6 +592,7 @@ session_start();
                 </div>
             </div>  
     </div>
+</body>
 
 <!--Bootstrap 5 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>   --> 
